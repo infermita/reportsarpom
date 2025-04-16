@@ -1,0 +1,521 @@
+2551 : AccessAbsentSupervisor
+
+2548 : AccessAntipassbackViolation
+
+2557 : AccessCardAndPINTimeout
+
+2546 : AccessDeniedByAccessRule
+
+2559 : AccessDeniedByMaxOccupancy
+
+2554 : AccessEscortNotSupported
+
+2552 : AccessEscortRequired
+
+37 : AccessExpiredCredential
+
+35 : AccessGranted
+
+40 : AccessInactiveCredential
+
+41 : AccessInactivePerson
+
+2547 : AccessInsufficientPrivileges
+
+2544 : AccessInvalidPin
+
+39 : AccessLostCredential
+
+2550 : AccessNoAccessRuleAssigned
+
+2549 : AccessOutOfSchedule
+
+36 : AccessRefused
+
+2553 : AccessSecondCardholderRequired
+
+38 : AccessStolenCredential
+
+34 : AccessUnassignedCredential
+
+33 : AccessUnknownCredential
+
+2558 : AccessValidCardInactivePIN
+
+2545 : AccessValidCardInvalidPin
+
+3 : AlarmAcknowledged
+
+67 : AlarmAcknowledgedAlternate
+
+2385 : AlarmForciblyAcked
+
+2384 : AlarmInvestigating
+
+2 : AlarmTriggered
+
+4 : ApplicationConnected
+
+5 : ApplicationDisconnected
+
+1370 : ArchiveFileDeleted
+
+3072 : ArchiverDiskFull
+
+3074 : ArchiverFileProtectionFailure
+
+3073 : ArchiverFileProtectionSuccess
+
+1373 : ArchivingQueueFull
+
+1360 : ArchivingStartedAutomatically
+
+1368 : ArchivingStartedByAlarm
+
+1366 : ArchivingStartedByExternalSource
+
+1362 : ArchivingStartedManually
+
+1364 : ArchivingStartedOnMotionEvent
+
+1361 : ArchivingStoppedAutomatically
+
+1369 : ArchivingStoppedByAlarm
+
+1367 : ArchivingStoppedByExternalSource
+
+1363 : ArchivingStoppedManually
+
+1365 : ArchivingStoppedOnMotionEvent
+
+47 : AreaAntipassbackDetected
+
+2062 : AreaAntipassbackDisabledInvalidSettings
+
+2048 : AreaAntipassbackDisabledMixedMode
+
+2051 : AreaAntipassbackDisabledPerimeterOnElevator
+
+2049 : AreaAntipassbackDisabledUnitOffline
+
+48 : AreaAntipassbackForgiven
+
+71 : AreaBelowMaxOccupancy
+
+80 : AreaCardholderAdded
+
+68 : AreaCardholderRemoved
+
+72 : AreaDuressPinEntered
+
+45 : AreaFirstManIn
+
+2303 : AreaLast
+
+46 : AreaLastManOut
+
+70 : AreaMaxOccupancyExceeded
+
+69 : AreaMaxOccupancyReached
+
+2050 : AreaPeopleCountDisabledUnitOffline
+
+2060 : AreaSasAntipassbackWarning
+
+2064 : AreaSasDoorWithNoSensorWarning
+
+2061 : AreaSasFloorWarning
+
+2059 : AreaSasFreeAccessWarning
+
+2055 : AreaSasLockdownOff
+
+2054 : AreaSasLockdownOn
+
+2058 : AreaSasMaintenanceModeWarning
+
+2056 : AreaSasMultipleUnitWarning
+
+2063 : AreaSasOnePerimeterDoorWarning
+
+2053 : AreaSasOverrideOff
+
+2052 : AreaSasOverrideOn
+
+2057 : AreaSasUnsupportedWarning
+
+1281 : AssetLowBattery
+
+1280 : AssetMoved
+
+1282 : AssetOffline
+
+1283 : AssetOnline
+
+3584 : AudioAnalyticsCustom
+
+1381 : CameraEdgeRecordingCommandTimeout
+
+1382 : CameraEdgestorageFailure
+
+6 : CameraLiveBookmarkAdded
+
+1383 : CameraMotion
+
+9 : CameraMotionOff
+
+8 : CameraMotionOn
+
+1377 : CameraMultipleSourceDetected
+
+1374 : CameraNotArchiving
+
+7 : CameraPlaybackBookmarkAdded
+
+1376 : CameraRtpPacketsLost
+
+1371 : CameraSignalLost
+
+1372 : CameraSignalRecovered
+
+1378 : CameraStartBlock
+
+1379 : CameraStopBlock
+
+1375 : CameraTransmissionLost
+
+1380 : CameraTransmissionRecovered
+
+10 : CardholderAccessGranted
+
+11 : CardholderAccessRefused
+
+14 : CardholderAntipassback
+
+73 : CardholderDuressPinEntered
+
+2465 : CardholderEntryAssumed
+
+2464 : CardholderEntryDetected
+
+13 : CardholderInactive
+
+2432 : CardholderNoEntryDetected
+
+2555 : CompanionVisitorDenied
+
+50 : CredentialExpired
+
+53 : CredentialInactive
+
+52 : CredentialLost
+
+51 : CredentialStolen
+
+49 : CredentialUnassigned
+
+15 : CustomEvent
+
+28 : DoorClose
+
+2496 : DoorEntryAssumed
+
+2480 : DoorEntryDetected
+
+30 : DoorLock
+
+848 : DoorMaintenanceOff
+
+849 : DoorMaintenanceOn
+
+853 : DoorManuallyUnlocked
+
+2448 : DoorNoEntryDetected
+
+868 : DoorOnline
+
+27 : DoorOpen
+
+24 : DoorOpenedForTooLong
+
+32 : DoorOpenWhileLockSecure
+
+25 : DoorPullStationActivated
+
+26 : DoorPullStationNormal
+
+23 : DoorRexOff
+
+22 : DoorRexOn
+
+850 : DoorScheduledLock
+
+851 : DoorScheduledUnlock
+
+42 : DoorTamper
+
+31 : DoorUnlock
+
+852 : DoorWarningUnitOffline
+
+2306 : ElevatorFreeAccessOnSchedule
+
+2305 : ElevatorSecuredOnSchedule
+
+2304 : ElevatorWarningUnitOffline
+
+1104 : FloorAccess
+
+1792 : HealthMonitoringEvent
+
+2819 : InputAlarmActive
+
+2820 : InputAlarmRestored
+
+2821 : InputBypassed
+
+2822 : InputBypassRestored
+
+2816 : InputStateActive
+
+2817 : InputStateNormal
+
+2818 : InputStateTrouble
+
+44 : InputTroubleOpen
+
+43 : InputTroubleShort
+
+2556 : Interlock
+
+514 : IntrusionAreaAlarmActivated
+
+530 : IntrusionAreaAlarmSilenced
+
+515 : IntrusionAreaArming
+
+516 : IntrusionAreaArmingPostponed
+
+524 : IntrusionAreaCanceledAlarm
+
+519 : IntrusionAreaDisarmed
+
+512 : IntrusionAreaDuress
+
+513 : IntrusionAreaEntryDelay
+
+523 : IntrusionAreaForcedArming
+
+521 : IntrusionAreaInputBypassActivated
+
+522 : IntrusionAreaInputBypassDeactivated
+
+520 : IntrusionAreaInputTrouble
+
+517 : IntrusionAreaMasterArmed
+
+518 : IntrusionAreaPerimeterArmed
+
+2561 : IntrusionUnitInputBypassActivated
+
+2562 : IntrusionUnitInputBypassDeactivated
+
+2560 : IntrusionUnitInputTrouble
+
+2563 : IntrusionUnitTamper
+
+257 : LprHit
+
+262 : LprHotlistChanged
+
+261 : LprNoMatch
+
+260 : LprOffloadFailed
+
+259 : LprOffloadSucceeded
+
+256 : LprRead
+
+65 : MacroAborted
+
+64 : MacroCompleted
+
+63 : MacroStarted
+
+1 : ManualAction
+
+2467 : MissingTailEscort
+
+0 : None
+
+2513 : OfflineSynchronizationFailure
+
+2512 : OfflineSynchronizationStarted
+
+2514 : OfflineSynchronizationSuccess
+
+3342 : ParkingSessionCompletedByInventoryReset
+
+3343 : ParkingSessionCompletedByMaxSessionTimeExceeded
+
+3346 : ParkingSessionCompletedByUnknownVehicleExited
+
+3344 : ParkingSessionCompletedByVehicledExited
+
+3345 : ParkingSessionCompletedByVehicleReentered
+
+3330 : ParkingSessionConvenienceTimeStarted
+
+3335 : ParkingSessionGracePeriodStartedByConvenienceTimeExpired
+
+3336 : ParkingSessionGracePeriodStartedByPaidTimeInvalid
+
+3333 : ParkingsessionPaidTimeStartedByPaidTimeValid
+
+3334 : ParkingSessionPaidTimeStartedByValidationError
+
+3329 : ParkingSessionStartedByUnknownVehicleExited
+
+3328 : ParkingSessionStartedByVehicleEntered
+
+3331 : ParkingSessionValidatingPaidTimeByConvenienceTimeExpired
+
+3332 : ParkingSessionValidatingPaidTimeByPaidTimeExpired
+
+3337 : ParkingSessionViolationDetectedByConvenienceTimeExpired
+
+3338 : ParkingSessionViolationDetectedByGracePeriodExpired
+
+3340 : ParkingSessionViolationDetectedByPaidTimeInvalid
+
+3341 : ParkingSessionViolationEnforced
+
+3348 : ParkingZoneCapacityThresholdReached
+
+3347 : ParkingZoneInventoryReset
+
+66 : PeopleCountReset
+
+258 : ProcessMlpiResultsResultEvent
+
+1536 : PtzActivated
+
+1540 : PtzLocked
+
+1537 : PtzStopped
+
+1538 : PtzZoomByUserStarted
+
+1539 : PtzZoomByUserStopped
+
+2416 : ThreatLevelActivated
+
+2417 : ThreatLevelDeactivated
+
+18 : UnitACFail
+
+19 : UnitBatFail
+
+16 : UnitConnected
+
+17 : UnitDisconnected
+
+21 : UserLoggedOff
+
+20 : UserLoggedOn
+
+1048 : VideoAnalyticsAdaptiveMotion
+
+1024 : VideoAnalyticsAudioAlarm
+
+1051 : VideoAnalyticsCrowdDetected
+
+1047 : VideoAnalyticsDirectionAlarm
+
+1046 : VideoAnalyticsFaceDetected
+
+1052 : VideoAnalyticsFaceRecognized
+
+1054 : VideoAnalyticsHeatMapChanged
+
+1025 : VideoAnalyticsLicensePlateInSight
+
+1026 : VideoAnalyticsLicensePlateOutofSight
+
+1027 : VideoAnalyticsLicensePlateReading
+
+1028 : VideoAnalyticsObjectConditionChange
+
+1057 : VideoAnalyticsObjectCountChanged
+
+1049 : VideoAnalyticsObjectCountReached
+
+1029 : VideoAnalyticsObjectCrossedLine
+
+1053 : VideoAnalyticsObjectDetected
+
+1056 : VideoAnalyticsObjectDirectionChanged
+
+1030 : VideoAnalyticsObjectEntered
+
+1031 : VideoAnalyticsObjectExited
+
+1032 : VideoAnalyticsObjectFall
+
+1033 : VideoAnalyticsObjectFollowingRoute
+
+1034 : VideoAnalyticsObjectInField
+
+1035 : VideoAnalyticsObjectLeft
+
+1036 : VideoAnalyticsObjectLoitering
+
+1037 : VideoAnalyticsObjectMerged
+
+1038 : VideoAnalyticsObjectRemoved
+
+1039 : VideoAnalyticsObjectRun
+
+1040 : VideoAnalyticsObjectSlide
+
+1041 : VideoAnalyticsObjectSplit
+
+1042 : VideoAnalyticsObjectStopped
+
+1055 : VideoAnalyticsObjectVelocityChanged
+
+1043 : VideoAnalyticsTailgating
+
+1044 : VideoAnalyticsTampering
+
+1045 : VideoAnalyticsUndefined
+
+2466 : VisitorAstray
+
+768 : ZoneArmed
+
+57 : ZoneDeadBoltLocked
+
+58 : ZoneDeadBoltUnlocked
+
+769 : ZoneDisarmed
+
+54 : ZoneGlassBreak
+
+59 : ZoneKnobInplace
+
+60 : ZoneKnobRotated
+
+62 : ZoneLockReleased
+
+61 : ZoneLockSecured
+
+771 : ZoneMaintenanceOff
+
+770 : ZoneMaintenanceOn
+
+772 : ZoneWarningUnitOffline
+
+56 : ZoneWindowClosed
+
+55 : ZoneWindowOpened
