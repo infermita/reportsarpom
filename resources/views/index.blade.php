@@ -8,11 +8,11 @@
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-md-3 mb-4">
             <div class="form-group">
-                <label>Utente</label>
+                <label>Azienda</label>
                 <select name="cardholder" class="form-control">
-                    <option value="{{ implode('@', array_keys($cards)) }}">Tutti</option>
-                    @foreach($cards as $key => $value)
-                    <option value="{{$key}}">{{$value}}</option>
+                    <option value="{{ implode('@', array_keys($company)) }}">Tutti</option>
+                    @foreach($company as $key => $value)
+                    <option value="{{$key}}">{{$key}}</option>
                     @endforeach
                 </select>
             </div>

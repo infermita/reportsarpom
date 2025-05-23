@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\Eventtype;
+use App\Lib\GenetecApi;
+use Illuminate\Support\Facades\Cache ;
 
 class importevents extends Command
 {
@@ -26,6 +28,25 @@ class importevents extends Command
      */
     public function handle()
     {
+        $api = new GenetecApi();
+        $credentials = Cache::rememberForever( 'credentials',function () use ($api){
+            //$api = new GenetecApi();
+            return $api->getCredential();
+        } ) ;
+        
+        $doors = Cache::rememberForever( 'doors',function () use ($api) {
+            //$api = new GenetecApi();
+            return $api->getDoors();
+        } ) ;
+        
+        $areas = Cache::rememberForever( 'areas',function () use ($api) {
+            //$api = new GenetecApi();
+            return $api->getAreas();
+        } ) ;
+        
+        print_r($areas);
+        
+        /*
         $path = base_path();
         
         $row = 0;
@@ -50,5 +71,7 @@ class importevents extends Command
             }
             
         }
+        * 
+        */
     }
 }
