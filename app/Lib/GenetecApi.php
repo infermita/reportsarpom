@@ -252,14 +252,21 @@ class GenetecApi {
     }
     public function getReport($param) {
         
+        /****
+         * usare solo il 
+         * RAFFINERIA TRECATE
+         * f00843a3-1dba-421a-880e-23851725783c
+         * 
+         */
+        
         //$url = "WebSdk/report/DoorActivity?q=Doors@".$param["door"].",TimeRange.SetTimeRange(".$param["start"]."T00:00:00,".$param["end"]."T23:59:59)";
-        $url = "WebSdk/report/TimeAttendanceActivity?q=Areas@b14150e7-24e3-4092-b0f9-4c17c34ebb9a,TimeRange.SetTimeRange(".$param["start"]."T00:00:00,".$param["end"]."T23:59:59)";
+        $url = "WebSdk/report/TimeAttendanceActivity?q=Areas@f00843a3-1dba-421a-880e-23851725783c,Cardholders@".$param["cardholder"].",TimeRange.SetTimeRange(".$param["start"]."T00:00:00,".$param["end"]."T23:59:59)";
         //echo $url;exit;
         
         $res = $this->getContent($url);
-        echo "<pre>";
-        $list = json_decode($res);
         
+        return json_decode($res,true);
+        /*
         if($list->Rsp->Status=='Ok'){
             foreach ($list->Rsp->Result as $item){
                 //echo $item->EventType."<br />";
@@ -277,6 +284,8 @@ class GenetecApi {
 
             }
         }
+         * 
+         */
         
     }
     public function getAreas() {

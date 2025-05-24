@@ -122,7 +122,7 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                     @yield('global')
+                     @yield('content')
 
 
                 </div>

@@ -15,6 +15,7 @@
         "vite": "^6.2.4"
     },
     "dependencies": {
+        "datatables.net-dt": "^2.3.1",
         "jquery": "^3.7.1",
         "startbootstrap-sb-admin-2": "^4.1.4"
     }

@@ -14,23 +14,55 @@ class DefaultController extends Controller
         
         $api = new GenetecApi();
         
-        if($request->all()){
-            
-            $api->getReport($request->all());
-            
-        }
-        //dump($api->getCardholdcderGroup());exit;
-        dump(json_decode($api->getEntity("498d16e4-9a87-4c9b-a1f8-526836b985a9")));exit;
-        
-                
         
         $company = Cache::remember( 'credentials',600, function () use ($api){
             //$api = new GenetecApi();
             return $api->getCredential();
         } ) ;
+        
+        
+        $res =[];
+        
+        if($request->all()){
+            $usersList = [];
+            
+            foreach ($company as $users){
+                
+                foreach ($users as $key => $user){
+                    $usersList[$key] = $user;
+                }
+                
+            }
+            
+            $res = $api->getReport($request->all());
+            
+            foreach ($res["Rsp"]["Result"] as $key => $users){
+                
+                $res["Rsp"]["Result"][$key]["Name"] = $usersList[  $res["Rsp"]["Result"][$key]["CardholderGuid"] ];
+                
+            }
+            $res = $res["Rsp"]["Result"];
+            //echo "<pre>";
+            //print_r($res);exit;
+            
+            
+        }
+                        
+        //dump($api->getCardholdcderGroup());exit;
+        //dump(json_decode($api->getEntity("498d16e4-9a87-4c9b-a1f8-526836b985a9")));exit;
+        
+                
+        
+        
+        
         $doors = Cache::remember( 'doors',600, function () use ($api) {
             //$api = new GenetecApi();
             return $api->getDoors();
+        } ) ;
+        
+        $areas = Cache::rememberForever( 'areas',function () use ($api) {
+            //$api = new GenetecApi();
+            return $api->getAreas();
         } ) ;
         /*
         $credentials = Cache::remember( 'credentials',600, function () use ($api){
@@ -55,7 +87,7 @@ class DefaultController extends Controller
         dump(json_decode($u1));exit;
         */
         
-        return view('index',compact('company','doors'));
+        return view('index',compact('company','areas','res'));
         
     }
 }

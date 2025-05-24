@@ -44,7 +44,7 @@ class importevents extends Command
             return $api->getAreas();
         } ) ;
         
-        print_r($areas);
+        print_r($credentials);
         
         /*
         $path = base_path();
