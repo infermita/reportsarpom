@@ -14,19 +14,26 @@ class DefaultController extends Controller
         
         $api = new GenetecApi();
         
+        $companySel = "";
         
-        $company = Cache::remember( 'credentials',600, function () use ($api){
-            //$api = new GenetecApi();
-            return $api->getCredential();
-        } ) ;
+        $company = Cache::get('credentials') ;
         
+        ksort($company);
         
         $res =[];
         
         if($request->all()){
             $usersList = [];
             
-            foreach ($company as $users){
+            foreach ($company as $key => $users){
+                
+                $guids = implode('@', array_keys($users));
+                
+                if($guids==$request->all()["cardholder"]){
+                    
+                    $companySel = $key;
+                    
+                }
                 
                 foreach ($users as $key => $user){
                     $usersList[$key] = $user;
@@ -55,15 +62,19 @@ class DefaultController extends Controller
         
         
         
-        $doors = Cache::remember( 'doors',600, function () use ($api) {
-            //$api = new GenetecApi();
-            return $api->getDoors();
-        } ) ;
+        //$doors = Cache::get( 'doors' ) ;
         
-        $areas = Cache::rememberForever( 'areas',function () use ($api) {
-            //$api = new GenetecApi();
-            return $api->getAreas();
-        } ) ;
+        $areasC = Cache::get( 'areas' ) ;
+        
+        $areas = [];
+        
+        foreach ($areasC as $key => $value) {
+            if($value == "RAFFINERIA TRECATE"){
+                
+                $areas[$key] = $value;
+                
+            }
+        }
         /*
         $credentials = Cache::remember( 'credentials',600, function () use ($api){
             //$api = new GenetecApi();
@@ -87,7 +98,7 @@ class DefaultController extends Controller
         dump(json_decode($u1));exit;
         */
         
-        return view('index',compact('company','areas','res'));
+        return view('index',compact('company','areas','res','request','companySel'));
         
     }
 }
