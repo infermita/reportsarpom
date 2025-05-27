@@ -56,7 +56,7 @@ async function initializeTable() {
             }
         },
         "pagingType": "full_numbers",
-        order: [[1, 'asc']],
+        order: [[0, 'asc']],
         pageLength:50,
         
         

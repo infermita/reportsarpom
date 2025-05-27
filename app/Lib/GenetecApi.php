@@ -121,6 +121,21 @@ class GenetecApi {
         
     }
     
+    private function getCustomFileds($param,&$company,&$code) {
+        
+        foreach ($param as $custF){
+            
+            if($custF->Name=="Ditta Appartenenza")
+                $company = $custF->Value;
+            
+            if($custF->Name=="Codice Dipendente")
+                $code = $custF->Value;
+            
+        }
+        
+    }
+
+
     public function getCredential() {
         
         $url = "WebSdk/report/EntityConfiguration?q=EntityTypes@Credential";
@@ -148,9 +163,17 @@ class GenetecApi {
                     
                         if($entity->Rsp->Result->Cardholder->Status->State=="Active"){
 
+                            $this->getCustomFileds($entity->Rsp->Result->Cardholder->CustomFields, $company, $code);
+                            //$resp[$company] = [];
+                            $resp[$company][$entity->Rsp->Result->Cardholder->Guid]["name"] = $entity->Rsp->Result->Cardholder->FirstName." ".$entity->Rsp->Result->Cardholder->LastName;
+                            $resp[$company][$entity->Rsp->Result->Cardholder->Guid]["cardid"] = $entity->Rsp->Result->Format->CardId;
+                            $resp[$company][$entity->Rsp->Result->Cardholder->Guid]["code"] = $code;
+                            /*
                             foreach ($entity->Rsp->Result->Cardholder->CustomFields as $custF){
 
-                                if($custF->Name=="Ditta Appartenenza"){
+                                
+                                
+                                if($custF->Name=="Ditta Appartenenza" || $custF->Name=="Codice Dipendente"){
 
                                     if(!isset($resp[$custF->Value])){
 
@@ -160,15 +183,24 @@ class GenetecApi {
 
 
                                     }
-                                    $resp[$custF->Value][$entity->Rsp->Result->Cardholder->Guid] = $entity->Rsp->Result->Cardholder->FirstName." ".$entity->Rsp->Result->Cardholder->LastName;
+                                    $resp[$custF->Value][$entity->Rsp->Result->Cardholder->Guid]["name"] = $entity->Rsp->Result->Cardholder->FirstName." ".$entity->Rsp->Result->Cardholder->LastName;
+                                    $resp[$custF->Value][$entity->Rsp->Result->Cardholder->Guid]["cardid"] = $entity->Rsp->Result->Format->CardId;
+                                    
+                                    if($custF->Name=="Codice Dipendente"){
+                                        $resp[$custF->Value][$entity->Rsp->Result->Cardholder->Guid]["code"] = $custF->Value;
+                                    }
+                                    
                                     //$resp[$custF->Value][$inc]["id"] = $val->Guid ;
+                                    
 
                                     $inc++;
 
                                 }
 
                             }
-                            //dump($resp);
+                             * 
+                             */
+                            //dump($resp);exit;
                             //echo "Analizzo: ".$entity->Rsp->Result->Name.PHP_EOL;
 
 
@@ -260,7 +292,7 @@ class GenetecApi {
          */
         
         //$url = "WebSdk/report/DoorActivity?q=Doors@".$param["door"].",TimeRange.SetTimeRange(".$param["start"]."T00:00:00,".$param["end"]."T23:59:59)";
-        $url = "WebSdk/report/TimeAttendanceActivity?q=Areas@f00843a3-1dba-421a-880e-23851725783c,Cardholders@".$param["cardholder"].",TimeRange.SetTimeRange(".$param["start"]."T00:00:00,".$param["end"]."T23:59:59)";
+        $url = "WebSdk/report/TimeAttendanceActivity?q=Areas@f00843a3-1dba-421a-880e-23851725783c,Cardholders@".$param["cardholder"].",TimeRange.SetTimeRange(".$param["start"]."T00:00:00,".$param["start"]."T23:59:59)";
         //echo $url;exit;
         
         $res = $this->getContent($url);

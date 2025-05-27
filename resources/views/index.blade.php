@@ -32,19 +32,21 @@
                 </select>
             </div>
         </div>
-        <div class="col-md-2 mb-4">
+        <div class="col-md-3 mb-4">
             <div class="form-group">
-                <label>Dal</label>
+                <label>Data</label>
                 <input type="date" class="form-control datetime" name="start" required value="{{ $request["start"] }}"/>
             </div>
         </div>
+        <!--
         <div class="col-md-2 mb-4">
             <div class="form-group">
                 <label>Al</label>
-                <input type="date" class="form-control datetime"  name="end" required value="{{ $request["end"] }}"/>
+                <input type="date" class="form-control datetime"  name="end" value="{{ $request["end"] }}"/>
             </div>
         </div>
-        <div class="col-md-2 mb-4">
+        -->
+        <div class="col-md-3 mb-4">
             <div class="form-group">
                 <label>&nbsp;</label>
                 <button class="btn btn-info form-control" type="submit">Cerca</button>
@@ -56,22 +58,26 @@
             <table id="datatable" class="table table-bordered nowrap">
                 <thead>
                     <tr>
-                        <th>Data</th>
                         <th>Nome</th>
+                        <th>Cod. Sarpom</th>
+                        <th>Badge</th>
                         <th>Azienda</th>
                         <th>Data ora ingresso</th>
                         <th>Data ora uscita</th>
-                        <th>Ore:Minuti</th>
+                        <th>Ore:Minuti Effettive</th>
+                        <th>Ore:Minuti Totali</th>
                     </tr>
                 </thead>
                 @foreach($res as $val)
                     <tr>
-                        <td>{{ Carbon\Carbon::createFromDate($val["Date"])->format("d-m-Y") }}</td>
-                        <td>{{ $val["Name"] }}</td>
+                        <td>{{ $val[0] }}</td>
+                        <td>{{ $val[1] }}</td>
+                        <td>{{ $val[2] }}</td>
                         <td>{{ $companySel }}</td>
-                        <td>{{ Carbon\Carbon::createFromDate($val["FirstTimeIn"])->format("d-m-Y H:i") }}</td>
-                        <td>{{ Carbon\Carbon::createFromDate($val["LastExitTime"])->format("d-m-Y H:i") }}</td>
-                        <td>{{ sprintf("%02d",floor($val["TotalMinutes"]/60)) }}:{{ sprintf("%02d",$val["TotalMinutes"]%60) }}</td>
+                        <td>{{ $val[3] }}</td>
+                        <td>{{ $val[4] }}</td>
+                        <td>{{ $val[5] }}</td>
+                        <td>{{ $val[6] }}</td>
                     </tr>
                 @endforeach
             </table>

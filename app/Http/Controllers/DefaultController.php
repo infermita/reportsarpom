@@ -6,13 +6,19 @@ use Illuminate\Support\Facades\Cache ;
 
 use Illuminate\Http\Request;
 use App\Lib\GenetecApi;
+use App\Lib\ReportExport;
+use App\Lib\ElaborateResult;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DefaultController extends Controller
 {
     //
     public function index(Request $request){
         
+        return Excel::download(new ReportExport, "prova.xls");
+        
         $api = new GenetecApi();
+        //$api->getCredential();
         
         $companySel = "";
         
@@ -33,25 +39,32 @@ class DefaultController extends Controller
                     
                     $companySel = $key;
                     
+                    $usersList = $users;
+                    
+                    break;
+                    
+                    
                 }
                 
-                foreach ($users as $key => $user){
-                    $usersList[$key] = $user;
-                }
+                
+                
+                
                 
             }
             
             $res = $api->getReport($request->all());
-            
+            /*
             foreach ($res["Rsp"]["Result"] as $key => $users){
                 
                 $res["Rsp"]["Result"][$key]["Name"] = $usersList[  $res["Rsp"]["Result"][$key]["CardholderGuid"] ];
                 
             }
             $res = $res["Rsp"]["Result"];
-            //echo "<pre>";
+            echo "<pre>";
+            print_r($res);exit;
+            */
             //print_r($res);exit;
-            
+            $res = ElaborateResult::elaborate($res["Rsp"]["Result"], $usersList);
             
         }
                         
