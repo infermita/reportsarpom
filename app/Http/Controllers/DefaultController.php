@@ -15,7 +15,7 @@ class DefaultController extends Controller
     //
     public function index(Request $request){
         
-        return Excel::download(new ReportExport, "prova.xls");
+        //return Excel::download(new ReportExport, "prova.xls");
         
         $api = new GenetecApi();
         //$api->getCredential();
