@@ -67,3 +67,68 @@ async function initializeTable() {
 document.addEventListener("DOMContentLoaded", function () {
     initializeTable();
 });
+
+window.viewNewRow = function(state) {
+    
+   if (state) {
+        
+        document.getElementById("newform").reset();
+        
+        $("#button").fadeOut(function() {
+            $("#list").fadeOut(function() {
+                $("#new").fadeIn();
+            });
+        });
+
+
+    } else {
+        $("#new").fadeOut(function() {
+            $("#button").fadeIn(function() {
+                $("#list").fadeIn();
+            });
+        });
+
+    }
+
+};
+
+window.modRow = function(b64){
+        
+    viewNewRow(true);
+
+    var js = JSON.parse(atob(b64));
+    for (var prop in js) {
+        $("#"+prop).val(js[prop]);
+    }
+
+
+};
+
+window.delRowDB = function(id){
+    
+    var path = "/delete";
+    var fields = {};
+    
+    fields["id"] = id;
+    fields["_token"] = $('[name="_token"]').val();
+
+    var param = JSON.stringify(fields);
+    var call = $.ajax({
+        type: 'POST',
+        url: path,
+        data: param, // or JSON.stringify ({name: 'jonas'}),
+        success: function(data) {
+            
+            location.reload();
+
+
+        },
+        error: function() {
+            alert("Errore server");
+        },
+        contentType: "application/json",
+        dataType: 'json'
+
+    });
+    
+};

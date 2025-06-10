@@ -13,3 +13,7 @@ window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+import jQueryConfirm from "jquery-confirm";
+window.jQuery.confirm = window.$.confirm = jQueryConfirm;
+
+

@@ -9,6 +9,9 @@ use App\Lib\GenetecApi;
 use App\Lib\ReportExport;
 use App\Lib\ElaborateResult;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\User;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 class DefaultController extends Controller
 {
@@ -113,5 +116,67 @@ class DefaultController extends Controller
         
         return view('index',compact('company','areas','res','request','companySel'));
         
+    }
+    
+    public function users(Request $request){
+        
+        if($request->all()){
+            
+            $request->validate([
+                'name'      => 'required',
+                'email'     => 'required|email|unique:users,email,' .$request->id,
+                'password'  => 'required'
+            ]);
+            
+            $user = User::find($request->all()["id"]);
+            if($user){
+                
+                if(!Hash::isHashed( $request->all()["password"])){
+                    $user->password = Hash::make($request->all()["password"]);
+                }
+                $user->name = $request->all()["name"];
+                $user->email = $request->all()["email"];
+                $user->save();
+            }else{
+                User::updateOrCreate(['id'=> 0],$request->all());
+            }
+            
+        }
+        
+        $users = User::where("id",">",1)->get();
+        
+        $b64 = [];
+        
+        foreach ($users as $user){
+            
+            $b64[$user->id]['id'] = $user->id;
+            $b64[$user->id]['name'] = $user->name;
+            $b64[$user->id]['email'] = $user->email;
+            $b64[$user->id]['password'] = $user->password;
+            
+            
+            $b64[$user->id] = base64_encode(json_encode($b64[$user->id]));
+            
+        }
+        
+        return view('users', compact('users','b64'));
+        
+    }
+    
+    public function delete(Request $request){
+        
+        $data = $request->all();
+        
+        $ret["res"] = false;
+        
+        try {
+            
+            User::find($data["id"])->delete();
+            $ret["res"] = true;
+        } catch (Exception $e) {
+            $ret["msg"] = $e->getMessage();
+            
+        }
+        echo json_encode($ret);
     }
 }
