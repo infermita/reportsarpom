@@ -50,7 +50,14 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="/users">
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Users</span>
+                    <span>Utenti</span>
+                </a>
+                
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="/mailinglist">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Mailing list</span>
                 </a>
                 
             </li>

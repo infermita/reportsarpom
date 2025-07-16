@@ -1,4 +1,4 @@
-<?php
+<?php   
 
 namespace App\Lib;
 use Illuminate\Support\Facades\Cache ;
@@ -6,14 +6,14 @@ use Illuminate\Support\Facades\Cache ;
 class GenetecApi {
     //put your code here
     
-    protected $host = "192.168.1.250";
+    protected $host = "192.168.1.69";
     protected $port = 4590;
     private $auth = "";
     protected $protocol = "http";
     
     public function __construct() {
         
-        $this->auth = base64_encode("admin;jo7n8pLpRYH0zb8VUWMhDy0Qnuz/SeCqMjgbY8aX6QdUSDGZQLPE84RCNvYPz29J:Gecoitalia0!");
+        $this->auth = base64_encode("GecoAdmin;jo7n8pLpRYH0zb8VUWMhDy0Qnuz/SeCqMjgbY8aX6QdUSDGZQLPE84RCNvYPz29J:Gecoitalia0!");
         
     }
     
@@ -37,11 +37,15 @@ class GenetecApi {
             )
         ]);
         //echo "Chiamo url $url".PHP_EOL;
-        $homepage = file_get_contents($url, false, $context);
+        try{
+            $homepage = file_get_contents($url, false, $context);
         
-        $pos = strpos($homepage, '{', 1);
+            $pos = strpos($homepage, '{', 1);
 
-        $homepage = substr($homepage, $pos);
+            $homepage = substr($homepage, $pos);
+        } catch (\Exception $e){
+            echo $e->getMessage()."Url: $url\n";exit;
+        }
         
         return $homepage;
     }
@@ -165,7 +169,7 @@ class GenetecApi {
 
                             $this->getCustomFileds($entity->Rsp->Result->Cardholder->CustomFields, $company, $code);
                             //$resp[$company] = [];
-                            $resp[$company][$entity->Rsp->Result->Cardholder->Guid]["name"] = $entity->Rsp->Result->Cardholder->FirstName." ".$entity->Rsp->Result->Cardholder->LastName;
+                            $resp[$company][$entity->Rsp->Result->Cardholder->Guid]["name"] = $entity->Rsp->Result->Cardholder->LastName." ".$entity->Rsp->Result->Cardholder->FirstName;
                             $resp[$company][$entity->Rsp->Result->Cardholder->Guid]["cardid"] = $entity->Rsp->Result->Format->CardId;
                             $resp[$company][$entity->Rsp->Result->Cardholder->Guid]["code"] = $code;
                             /*

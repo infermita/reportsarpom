@@ -31,8 +31,11 @@ class ElaborateResult {
             $minutes = $users["TotalMinutes"];
             $totMinutes = $users["TotalMinutesInclusive"];
             
-            $hourMin = sprintf("%02d:%02d",floor($minutes/60),$minutes%60);
+            //$hourMin = sprintf("%02d:%02d",floor($minutes/60),$minutes%60);
             $totHourMin = sprintf("%02d:%02d",floor($totMinutes/60),$totMinutes%60);
+            
+            $totMinutes -= 45;
+            $hourMin = sprintf("%02d:%02d",floor($totMinutes/60),$totMinutes%60);
             
                 
             if(isset($collection[$name])){
@@ -42,6 +45,9 @@ class ElaborateResult {
                 
                 $hourMin = sprintf("%02d:%02d",floor($minutes/60),$minutes%60);
                 $totHourMin = sprintf("%02d:%02d",floor($totMinutes/60),$totMinutes%60);
+                
+                $totMinutes -= 45;
+                $hourMin = sprintf("%02d:%02d",floor($totMinutes/60),$totMinutes%60);
                 
                 $collection[$name] = [$name,$code,$cardid, $collection[$name][3], $dateOut, $hourMin, $totHourMin ,$minutes,$totMinutes];
                 

@@ -34,6 +34,7 @@ class importevents extends Command
             return $api->getCredential();
         } ) ;
         
+        
         $doors = Cache::rememberForever( 'doors',function () use ($api) {
             //$api = new GenetecApi();
             return $api->getDoors();
@@ -44,7 +45,7 @@ class importevents extends Command
             return $api->getAreas();
         } ) ;
         
-        print_r($credentials);
+        
         
         /*
         $path = base_path();

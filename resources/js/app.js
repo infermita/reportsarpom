@@ -104,18 +104,18 @@ window.modRow = function(b64){
 
 };
 
-window.delRowDB = function(id){
+window.delRowDB = function(id,table){
     
-    var path = "/delete";
     var fields = {};
     
     fields["id"] = id;
     fields["_token"] = $('[name="_token"]').val();
+    fields["table"] = table;
 
     var param = JSON.stringify(fields);
     var call = $.ajax({
         type: 'POST',
-        url: path,
+        url: '/delete',
         data: param, // or JSON.stringify ({name: 'jonas'}),
         success: function(data) {
             

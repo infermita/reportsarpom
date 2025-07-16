@@ -5,22 +5,23 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="p-5">
-                    <form class="user" id="newform" action="/users" method="post">
+                    <form class="user" id="newform" action="/mailinglist" method="post">
                         <div class="form-group row">
                             @csrf
-                            <div class="col-sm-4">
-                                <label>Nome cliente</label>
-                                <input type="text" name="name" class="form-control" id="name" placeholder="Nome cliente" required />
+                            <div class="col-sm-6">
+                                <label>Azienda</label>
+                                <select name="company" id='company' class="form-control">
+                                @foreach($company as $key => $value)
+                                    <option value="{{ $key }}">{{$key}}</option>
+                                @endforeach
+                                </select>
                                 <input type="hidden" id="id" name="id" value="0">
                             </div>
-                            <div class="col-sm-4">
-                                <label>Email</label>
-                                <input type="email" name="email" class="form-control" id="email" placeholder="Email" required />
+                            <div class="col-sm-6">
+                                <label>Emails <b>(inserire le mail separate dalla ',')</b></label>
+                                <input type="email" name="emails" class="form-control" id="emails" placeholder="Email" required multiple />
                             </div>
-                            <div class="col-sm-4">
-                                <label>Password</label>
-                                <input type="password" name="password" class="form-control" id="password" placeholder="Password" required />
-                            </div>
+                            
                            
                         </div>
                         <button type="submit" class="btn btn-primary float-right">SALVA</button>
@@ -42,8 +43,8 @@
                 <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Nome</th>
-                        <th>Email</th>
+                        <th>Azienda</th>
+                        <th>Emails</th>
                         <th>Azioni</th>
                     </tr>
                 </thead>
@@ -53,9 +54,9 @@
 
                             <td>{{$user->id}} </td>
 
-                            <td>{{$user->name}} </td>
+                            <td>{{$user->company}} </td>
 
-                            <td>{{$user->email}} </td>
+                            <td>{{$user->emails}} </td>
 
                             <td>
 
@@ -65,7 +66,7 @@
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a class="dropdown-item" href="#" onclick="modRow('{{ $b64[$user->id] }}')">Modifica</a>
-                                    <a class="dropdown-item" href="#" onclick="delRowDB('{{$user->id}}','User')">Cancella</a>
+                                    <a class="dropdown-item" href="#" onclick="delRowDB('{{$user->id}}','MailingList')">Cancella</a>
                                 </div>
                             </div>
                         </td>

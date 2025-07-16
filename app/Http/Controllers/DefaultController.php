@@ -10,6 +10,7 @@ use App\Lib\ReportExport;
 use App\Lib\ElaborateResult;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\User;
+use App\Models\MailingList;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 
@@ -170,8 +171,8 @@ class DefaultController extends Controller
         $ret["res"] = false;
         
         try {
-            
-            User::find($data["id"])->delete();
+            $class = 'App\\Models\\'.$data["table"];
+            $class::find($data["id"])->delete();
             $ret["res"] = true;
         } catch (Exception $e) {
             $ret["msg"] = $e->getMessage();
