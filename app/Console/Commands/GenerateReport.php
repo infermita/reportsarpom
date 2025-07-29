@@ -41,13 +41,13 @@ class GenerateReport extends Command {
             $cardholder = implode('@', array_keys($companyC[$company->company]));
 
             $param["area"] = "f00843a3-1dba-421a-880e-23851725783c";
-            $param["start"] = "2025-02-23";
+            $param["start"] = "2025-02-22";
             $param["cardholder"] = $cardholder;
 
             $api = new GenetecApi();
             $res = $api->getReport($param);
-            print_r($res);exit;
-            $res = ElaborateResult::elaborate($res["Rsp"]["Result"], $companyC[$company->company]);
+            //print_r($res);exit;
+            $res = ElaborateResult::elaborate($res["Rsp"]["Result"], $companyC[$company->company],$param["start"]);
 
             $titles = [
                 'Nome',
@@ -68,7 +68,7 @@ class GenerateReport extends Command {
 
                 $htmlString .= '<tr>';
                 $htmlString .= '<td style="border: 1px solid black;width:200px;">' . $value[0] . '</td>';
-                $htmlString .= '<td style="border: 1px solid black;width:200px">' . $value[2] . '</td>';
+                $htmlString .= '<td style="border: 1px solid black;width:200px;text-align:center">' . $value[2] . '</td>';
                 $htmlString .= '<td style="border: 1px solid black;width:200px">' . $value[3] . '</td>';
                 $htmlString .= '<td style="border: 1px solid black;width:200px">' . $value[4] . '</td>';
                 $htmlString .= '<td style="border: 1px solid black;width:200px">' . $value[6] . '</td>';

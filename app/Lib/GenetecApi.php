@@ -294,10 +294,10 @@ class GenetecApi {
          * f00843a3-1dba-421a-880e-23851725783c
          * 
          */
-        
+        $dateEnd = date("Y-m-d", strtotime($param["start"])+86400);
         //$url = "WebSdk/report/DoorActivity?q=Doors@".$param["door"].",TimeRange.SetTimeRange(".$param["start"]."T00:00:00,".$param["end"]."T23:59:59)";
-        $url = "WebSdk/report/TimeAttendanceActivity?q=Areas@f00843a3-1dba-421a-880e-23851725783c,Cardholders@".$param["cardholder"].",TimeRange.SetTimeRange(".$param["start"]."T00:00:00,".$param["start"]."T23:59:59)";
-        //echo $url;exit;
+        $url = "WebSdk/report/TimeAttendanceActivity?q=Areas@f00843a3-1dba-421a-880e-23851725783c,Cardholders@".$param["cardholder"].",TimeRange.SetTimeRange(".$param["start"]."T00:00:00,".$dateEnd."T23:59:59)";
+        //echo $url. PHP_EOL;//exit;
         
         $res = $this->getContent($url);
         
