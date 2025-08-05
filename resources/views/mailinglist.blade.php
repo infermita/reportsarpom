@@ -8,7 +8,7 @@
                     <form class="user" id="newform" action="/mailinglist" method="post">
                         <div class="form-group row">
                             @csrf
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <label>Azienda</label>
                                 <select name="company" id='company' class="form-control">
                                 @foreach($company as $key => $value)
@@ -17,11 +17,17 @@
                                 </select>
                                 <input type="hidden" id="id" name="id" value="0">
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <label>Emails <b>(inserire le mail separate dalla ',')</b></label>
                                 <input type="email" name="emails" class="form-control" id="emails" placeholder="Email" required multiple />
                             </div>
-                            
+                            <div class="col-sm-4">
+                                <label>Report</label>
+                                <select name="scheduled" id='scheduled' class="form-control">
+                                    <option value="GIORNALIERO">GIORNALIERO</option>
+                                    <option value="MENSILE">MENSILE</option>
+                                </select>
+                            </div>
                            
                         </div>
                         <button type="submit" class="btn btn-primary float-right">SALVA</button>
@@ -45,6 +51,7 @@
                         <th>Id</th>
                         <th>Azienda</th>
                         <th>Emails</th>
+                        <th>Report</th>
                         <th>Azioni</th>
                     </tr>
                 </thead>
@@ -57,6 +64,8 @@
                             <td>{{$user->company}} </td>
 
                             <td>{{$user->emails}} </td>
+                            
+                            <td>{{$user->scheduled}} </td>
 
                             <td>
 

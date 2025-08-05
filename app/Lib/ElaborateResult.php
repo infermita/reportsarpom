@@ -27,8 +27,8 @@ class ElaborateResult {
             $name = $usersList[$result[$key]["CardholderGuid"]]["name"];
             $cardid = $usersList[$result[$key]["CardholderGuid"]]["cardid"];
             $code = $usersList[$result[$key]["CardholderGuid"]]["code"];
-            $dateIn = Carbon::createFromDate($users["FirstTimeIn"])->format("d-m-Y H:i");
-            $dateOut = Carbon::createFromDate($users["LastExitTime"])->format("d-m-Y H:i");
+            $dateIn = $dateInC = Carbon::createFromDate($users["FirstTimeIn"])->format("d-m-Y H:i");
+            $dateOut = $dateOutC =  Carbon::createFromDate($users["LastExitTime"])->format("d-m-Y H:i");
 
             $dateInCk = Carbon::createFromDate($users["FirstTimeIn"])->format("Y-m-d");
             $dateOutCk = Carbon::createFromDate($users["LastExitTime"])->format("Y-m-d");
@@ -39,35 +39,48 @@ class ElaborateResult {
             $minutes = $users["TotalMinutes"];
             $totMinutes = $users["TotalMinutesInclusive"];
 
+            
+            $dateCkIn = strtotime($dateSel." 07:57");
+            $dateCkOut = strtotime($dateSel." 16:45");
             //$hourMin = sprintf("%02d:%02d",floor($minutes/60),$minutes%60);
 
             if ($dateInCk == $dateOutCk && $dateInCk == $dateSel) {
                 
                 
-                $dateCkIn = strtotime($dateSel." 07:57");
-                $dateCkOut = strtotime($dateSel." 16:45");
+                
+                
+                $dateSelIniTime = strtotime($dateSel." 06:00:00");
+                $dateSelPause = strtotime($dateSel." 12:45:00");
+                
                 $change = false;
-                if(strtotime($dateIn) <= $dateCkIn){
+                if(strtotime($dateIn) <= $dateCkIn && strtotime($dateIn) > $dateSelIniTime){
 
-                    $dateIn = date("d-m-Y H:i",$dateCkIn);
+                    $dateInC = date("d-m-Y H:i",$dateCkIn);
                 }
                 
                 if(strtotime($dateOut) >= $dateCkOut){
 
-                    $dateOut = date("d-m-Y H:i",$dateCkOut);
+                    $dateOutC = date("d-m-Y H:i",$dateCkOut);
                 }
-                $diff = strtotime($dateOut) - strtotime($dateIn);
+                
+                $totHourMin = sprintf("%02d:%02d", floor($totMinutes / 60), $totMinutes % 60);
+                
+                $diff = strtotime($dateOutC) - strtotime($dateInC);
                 $minutes = ($diff/60);
                 $totMinutes = $minutes;
                 
                 //echo "$dateInCk==$dateOutCk "
 
-                $totHourMin = sprintf("%02d:%02d", floor($totMinutes / 60), $totMinutes % 60);
+                
 
-                if ($totMinutes >= 240)
+                if (strtotime($dateIn) < $dateSelPause && strtotime($dateIn) > $dateSelIniTime && strtotime($dateOut) > $dateSelPause){
+                    
                     $totMinutes -= 45;
+                }
 
                 $hourMin = sprintf("%02d:%02d", floor($totMinutes / 60), $totMinutes % 60);
+                
+                
 
                 if (isset($collection[$name])) {
 
@@ -79,15 +92,16 @@ class ElaborateResult {
 
                     //$totMinutes -= 45;
                     $hourMin = sprintf("%02d:%02d", floor($totMinutes / 60), $totMinutes % 60);
-
+                    
                     $collection[$name] = [$name, $code, $cardid, $collection[$name][3], $dateOut, $hourMin, $totHourMin, $minutes, $totMinutes];
                 } else {
-
+                    //echo $totMinutes." - $hourMin".PHP_EOL;
                     $collection[$name] = [$name, $code, $cardid, $dateIn, $dateOut, $hourMin, $totHourMin, $minutes, $totMinutes];
+                    
+                    
                 }
             } else {
-
-                if ($result[$key]["CardholderGuid"] == "b12fb477-d703-43bc-9010-d0bd4963a25c") {
+                //if ($result[$key]["CardholderGuid"] == "b12fb477-d703-43bc-9010-d0bd4963a25c") {
 
                     if (isset($collection[$name])) {
 
@@ -105,14 +119,19 @@ class ElaborateResult {
                         if($dateInCk == $dateSel)
                             $collection[$name] = [$name, $code, $cardid, $collection[$name][3], $dateOut, $hourMin, $totHourMin, $minutes, $totMinutes];
                     } else {
+                        
+                        $hourMin = sprintf("%02d:%02d", floor($totMinutes / 60), $totMinutes % 60);
+                        $totHourMin = sprintf("%02d:%02d", floor($totMinutes / 60), $totMinutes % 60);
+                        
                         if($dateInCk == $dateSel)
                             $collection[$name] = [$name, $code, $cardid, $dateIn, $dateOut, $hourMin, $totHourMin, $minutes, $totMinutes];
                     }
-                }
+                //}
             }
         }
+        
         ksort($collection);
-
+        
         return $collection;
     }
 }

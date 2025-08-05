@@ -33,6 +33,7 @@ class DefaultController extends Controller
         $res =[];
         
         if($request->all()){
+            
             $usersList = [];
             
             foreach ($company as $key => $users){
@@ -68,7 +69,7 @@ class DefaultController extends Controller
             print_r($res);exit;
             */
             //print_r($res);exit;
-            $res = ElaborateResult::elaborate($res["Rsp"]["Result"], $usersList);
+            $res = ElaborateResult::elaborate($res["Rsp"]["Result"], $usersList,$request->all()["start"]);
             
         }
                         

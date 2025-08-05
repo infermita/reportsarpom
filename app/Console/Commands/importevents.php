@@ -21,7 +21,7 @@ class importevents extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Import base';
 
     /**
      * Execute the console command.

@@ -25,6 +25,7 @@ class MailingListController extends Controller {
             $validate = $request->validate([
                 'company'      => 'required',
                 'emails'     => 'required',
+                'scheduled'     => 'required'
             ]);
                         
             $user = MailingList::find($request->all()["id"]);
@@ -32,6 +33,7 @@ class MailingListController extends Controller {
                 
                 $user->company = $validate["company"];
                 $user->emails = $validate["emails"];
+                $user->scheduled = $validate["scheduled"];
                 $user->save();
             }else{
                 MailingList::updateOrCreate(['id'=> 0],$validate);
@@ -51,6 +53,7 @@ class MailingListController extends Controller {
             $b64[$user->id]['id'] = $user->id;
             $b64[$user->id]['company'] = $user->company;
             $b64[$user->id]['emails'] = $user->emails;
+            $b64[$user->id]['scheduled'] = $user->scheduled;
                         
             
             $b64[$user->id] = base64_encode(json_encode($b64[$user->id]));
