@@ -33,9 +33,6 @@ class ElaborateResult {
             $dateInCk = Carbon::createFromDate($users["FirstTimeIn"])->format("Y-m-d");
             $dateOutCk = Carbon::createFromDate($users["LastExitTime"])->format("Y-m-d");
 
-            
-            
-            
             $minutes = $users["TotalMinutes"];
             $totMinutes = $users["TotalMinutesInclusive"];
 
@@ -43,14 +40,11 @@ class ElaborateResult {
             $dateCkIn = strtotime($dateSel." 07:57");
             $dateCkOut = strtotime($dateSel." 16:45");
             //$hourMin = sprintf("%02d:%02d",floor($minutes/60),$minutes%60);
+            
+            $dateSelIniTime = strtotime($dateSel." 06:00:00");
+            $dateSelPause = strtotime($dateSel." 12:45:00");
 
             if ($dateInCk == $dateOutCk && $dateInCk == $dateSel) {
-                
-                
-                
-                
-                $dateSelIniTime = strtotime($dateSel." 06:00:00");
-                $dateSelPause = strtotime($dateSel." 12:45:00");
                 
                 $change = false;
                 if(strtotime($dateIn) <= $dateCkIn && strtotime($dateIn) > $dateSelIniTime){
@@ -105,14 +99,14 @@ class ElaborateResult {
 
                     if (isset($collection[$name])) {
 
-                        $minutes = $users["TotalMinutes"] + $collection[$name][7];
+                        $minutes = $users["TotalMinutesInclusive"] + $collection[$name][7];
                         $totMinutes = $users["TotalMinutesInclusive"] + $collection[$name][8];
-
-                        $hourMin = sprintf("%02d:%02d", floor($minutes / 60), $minutes % 60);
-                        $totHourMin = sprintf("%02d:%02d", floor($totMinutes / 60), $totMinutes % 60);
+                        
+                        $totHourMin = sprintf("%02d:%02d", floor($minutes / 60), $minutes % 60);
+                        $hourMin  = sprintf("%02d:%02d", floor($totMinutes / 60), $totMinutes % 60);
 
                         //$totMinutes -= 45;
-                        $hourMin = sprintf("%02d:%02d", floor($totMinutes / 60), $totMinutes % 60);
+                        //$hourMin = sprintf("%02d:%02d", floor($totMinutes / 60), $totMinutes % 60);
                         
                         $dateInCk = Carbon::createFromDate($collection[$name][3])->format("Y-m-d");
                         
@@ -120,9 +114,17 @@ class ElaborateResult {
                             $collection[$name] = [$name, $code, $cardid, $collection[$name][3], $dateOut, $hourMin, $totHourMin, $minutes, $totMinutes];
                     } else {
                         
-                        $hourMin = sprintf("%02d:%02d", floor($totMinutes / 60), $totMinutes % 60);
+                        $minutes = $totMinutes;
+                        
                         $totHourMin = sprintf("%02d:%02d", floor($totMinutes / 60), $totMinutes % 60);
                         
+                        
+                        if (strtotime($dateIn) < $dateSelPause && strtotime($dateIn) > $dateSelIniTime && strtotime($dateOut) > $dateSelPause){
+                            $totMinutes -= 45;
+                        }
+                        
+                        $hourMin = sprintf("%02d:%02d", floor($totMinutes / 60), $totMinutes % 60);
+                                                
                         if($dateInCk == $dateSel)
                             $collection[$name] = [$name, $code, $cardid, $dateIn, $dateOut, $hourMin, $totHourMin, $minutes, $totMinutes];
                     }

@@ -10,6 +10,8 @@ use App\Lib\GenetecApi;
 use App\Lib\ElaborateResult;
 use Illuminate\Support\Facades\Cache;
 use App\Models\MailingList;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ReportEmail;
 
 class GenerateReport extends Command {
 
@@ -41,12 +43,12 @@ class GenerateReport extends Command {
             $cardholder = implode('@', array_keys($companyC[$company->company]));
 
             $param["area"] = "f00843a3-1dba-421a-880e-23851725783c";
-            $param["start"] = "2025-02-20";
+            $param["start"] = "2025-02-18";
             $param["cardholder"] = $cardholder;
 
             $api = new GenetecApi();
             $res = $api->getReport($param);
-            //print_r($res);exit;
+            
             $res = ElaborateResult::elaborate($res["Rsp"]["Result"], $companyC[$company->company],$param["start"]);
             
             $titles = [
@@ -85,6 +87,10 @@ class GenerateReport extends Command {
             $spreadsheet = $reader->loadFromString($htmlString, $spreadsheet);
             $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Mpdf');
             $writer->save($company->company.".pdf");
+            
+            //$send = Mail::to("a.mari@easycloudcompany.it")->send(new ReportEmail($company->company.".pdf"));
+            
+            //print_r($send);
         }
     }
 }
