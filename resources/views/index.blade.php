@@ -58,10 +58,10 @@
             <table id="datatable" class="table table-bordered nowrap">
                 <thead>
                     <tr>
+                        <th>Azienda</th>
                         <th>Nome</th>
                         <!--<th>Cod. Sarpom</th>-->
                         <th>Badge</th>
-                        <th>Azienda</th>
                         <th>Data ora ingresso</th>
                         <th>Data ora uscita</th>
                         <th>Ore:Minuti Totali</th>
@@ -70,10 +70,11 @@
                 </thead>
                 @foreach($res as $val)
                     <tr>
+                        <td>{{ $companySel }}</td>
                         <td>{{ $val[0] }}</td>
                         <!--<td>{{ $val[1] }}</td>-->
                         <td>{{ $val[2] }}</td>
-                        <td>{{ $companySel }}</td>
+                        
                         <td>{{ $val[3] }}</td>
                         <td>{{ $val[4] }}</td>
                         <td>{{ $val[6] }}</td>
