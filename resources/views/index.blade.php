@@ -64,8 +64,8 @@
                         <th>Azienda</th>
                         <th>Data ora ingresso</th>
                         <th>Data ora uscita</th>
-                        <th>Ore:Minuti Effettive</th>
                         <th>Ore:Minuti Totali</th>
+                        <th>Ore:Minuti Effettive</th>
                     </tr>
                 </thead>
                 @foreach($res as $val)
@@ -76,8 +76,8 @@
                         <td>{{ $companySel }}</td>
                         <td>{{ $val[3] }}</td>
                         <td>{{ $val[4] }}</td>
-                        <td>{{ $val[5] }}</td>
                         <td>{{ $val[6] }}</td>
+                        <td>{{ $val[5] }}</td>
                     </tr>
                 @endforeach
             </table>
