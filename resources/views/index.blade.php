@@ -59,8 +59,8 @@
                 <thead>
                     <tr>
                         <th>Nome</th>
-                        <th>Cod. Sarpom</th>
-                        <!--<th>Badge</th>-->
+                        <!--<th>Cod. Sarpom</th>-->
+                        <th>Badge</th>
                         <th>Azienda</th>
                         <th>Data ora ingresso</th>
                         <th>Data ora uscita</th>
@@ -71,8 +71,8 @@
                 @foreach($res as $val)
                     <tr>
                         <td>{{ $val[0] }}</td>
-                        <td>{{ $val[1] }}</td>
-                        <!--<td>{{ $val[2] }}</td>-->
+                        <!--<td>{{ $val[1] }}</td>-->
+                        <td>{{ $val[2] }}</td>
                         <td>{{ $companySel }}</td>
                         <td>{{ $val[3] }}</td>
                         <td>{{ $val[4] }}</td>
