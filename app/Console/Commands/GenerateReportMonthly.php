@@ -32,8 +32,10 @@ class GenerateReportMonthly extends Command {
      * Execute the console command.
      */
     public function handle() {
-        $endOfMonth = Carbon::createFromDate(2025, 2, 1)->daysInMonth();
-
+        $prevMonth = Carbon::now()->startOfMonth()->subMonth();
+        $dateinM = $prevMonth->format("Y-m");
+        $endOfMonth = $prevMonth->daysInMonth();//Carbon::createFromDate(2025, 2, 1)->daysInMonth();
+        
         $companyC = Cache::get('credentials');
 
         $companies = MailingList::all();
@@ -47,7 +49,7 @@ class GenerateReportMonthly extends Command {
             for ($i = 1; $i <= $endOfMonth; $i++) {
 
                 $param["area"] = "f00843a3-1dba-421a-880e-23851725783c";
-                $param["start"] = "2025-02-" . sprintf("%02d", $i);
+                $param["start"] = $dateinM ."-". sprintf("%02d", $i);
                 $param["cardholder"] = $cardholder;
 
                 echo "Esamino data: " . $param["start"] . PHP_EOL;

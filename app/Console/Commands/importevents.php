@@ -28,6 +28,8 @@ class importevents extends Command
      */
     public function handle()
     {
+        Cache::clear();
+        
         $api = new GenetecApi();
         $credentials = Cache::rememberForever( 'credentials',function () use ($api){
             //$api = new GenetecApi();

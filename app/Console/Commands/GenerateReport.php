@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Cache;
 use App\Models\MailingList;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ReportEmail;
+use Carbon\Carbon ;
 
 class GenerateReport extends Command {
 
@@ -36,14 +37,16 @@ class GenerateReport extends Command {
 
         $companyC = Cache::get('credentials');
         
-        $companies = MailingList::all();
-
+        $companies = MailingList::where("scheduled","GIORNALIERO")->get();
+        
+        $day = Carbon::now()->yesterday()->format("Y-m-d");
+        
         foreach ($companies as $company) {
 
             $cardholder = implode('@', array_keys($companyC[$company->company]));
 
             $param["area"] = "f00843a3-1dba-421a-880e-23851725783c";
-            $param["start"] = "2025-02-18";
+            $param["start"] = $day;
             $param["cardholder"] = $cardholder;
 
             $api = new GenetecApi();
@@ -88,7 +91,7 @@ class GenerateReport extends Command {
             $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Mpdf');
             $writer->save($company->company.".pdf");
             
-            //$send = Mail::to("a.mari@easycloudcompany.it")->send(new ReportEmail($company->company.".pdf"));
+            $send = Mail::to(explode(",",$company->scheduled))->send(new ReportEmail($company->company.".pdf"));
             
             //print_r($send);
         }

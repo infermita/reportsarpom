@@ -51,12 +51,12 @@ class ElaborateResult {
 
                     $dateInC = date("d-m-Y H:i",$dateCkIn);
                 }
-                
+                /*
                 if(strtotime($dateOut) >= $dateCkOut){
 
                     $dateOutC = date("d-m-Y H:i",$dateCkOut);
                 }
-                
+                */
                 $totHourMin = sprintf("%02d:%02d", floor($totMinutes / 60), $totMinutes % 60);
                 
                 $diff = strtotime($dateOutC) - strtotime($dateInC);

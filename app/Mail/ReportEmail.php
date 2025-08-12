@@ -18,10 +18,12 @@ class ReportEmail extends Mailable
      * Create a new message instance.
      */
     private $file;
+    private $data;
     
-    public function __construct($file)
+    public function __construct($file,$data)
     {
         $this->file = $file;
+        $this->data = $data;
     }
 
     /**
@@ -30,7 +32,7 @@ class ReportEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Report Email',
+            subject: 'Report del '.date("d-m-Y", strtotime($this->data)),
         );
     }
 
