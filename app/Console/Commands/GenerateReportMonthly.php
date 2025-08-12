@@ -11,6 +11,8 @@ use App\Lib\ElaborateResult;
 use Illuminate\Support\Facades\Cache;
 use App\Models\MailingList;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ReportEmail;
 
 class GenerateReportMonthly extends Command {
 
