@@ -32,7 +32,7 @@ class ReportEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Report del '.date("d-m-Y", strtotime($this->data)),
+            subject: 'Report del '.$this->data,
         );
     }
 

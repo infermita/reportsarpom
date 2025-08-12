@@ -8,7 +8,7 @@
 
 <body>
     <h1>Buongiorno</h1>
-    <p>In allegato esportazione giornaliera</p>
+    <p>In allegato esportazione</p>
 </body>
 
 </html>

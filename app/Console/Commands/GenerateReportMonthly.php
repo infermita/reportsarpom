@@ -38,7 +38,7 @@ class GenerateReportMonthly extends Command {
         
         $companyC = Cache::get('credentials');
 
-        $companies = MailingList::all();
+        $companies = MailingList::where("scheduled","MENSILE")->get();
 
         foreach ($companies as $company) {
 
@@ -103,6 +103,8 @@ class GenerateReportMonthly extends Command {
             $spreadsheet = $reader->loadFromString($htmlString, $spreadsheet);
             $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Mpdf');
             $writer->save($company->company . ".pdf");
+            
+            $send = Mail::to(explode(",",$company->emails))->send(new ReportEmail($company->company.".pdf","mese ".$dateinM));
         }
     }
 }
