@@ -106,7 +106,7 @@ class GenerateReportMonthly extends Command {
             $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Mpdf');
             $writer->save($company->company . ".pdf");
             
-            $send = Mail::to(explode(",",$company->emails))->send(new ReportEmail($company->company.".pdf","mese ".$dateinM." ".$company->company));
+            $send = Mail::to(explode(",",$company->emails))->send(new ReportEmail(str_replace("/","_",$company->company).".pdf","mese ".$dateinM." ".$company->company));
         }
     }
 }
