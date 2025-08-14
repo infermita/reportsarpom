@@ -91,7 +91,7 @@ class GenerateReport extends Command {
             $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Mpdf');
             $writer->save($company->company.".pdf");
             
-            $send = Mail::to(explode(",",$company->emails))->send(new ReportEmail($company->company.".pdf","giorno ".date("d-m-Y", strtotime($day))));
+            $send = Mail::to(explode(",",$company->emails))->send(new ReportEmail($company->company.".pdf","giorno ".date("d-m-Y", strtotime($day))." ".$company->company));
             
             //print_r($send);
         }
