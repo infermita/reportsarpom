@@ -58,6 +58,7 @@ class DefaultController extends Controller
             }
             
             $res = $api->getReport($request->all());
+            
             /*
             foreach ($res["Rsp"]["Result"] as $key => $users){
                 
@@ -83,11 +84,13 @@ class DefaultController extends Controller
         //$doors = Cache::get( 'doors' ) ;
         
         $areasC = Cache::get( 'areas' ) ;
+        //echo "<pre>";
+        //print_r($areasC);exit;
         
         $areas = [];
         
         foreach ($areasC as $key => $value) {
-            if($value == "RAFFINERIA TRECATE"){
+            if($value == "RAFFINERIA TRECATE" || $value=="PALAZZINA DIREZIONE"){
                 
                 $areas[$key] = $value;
                 

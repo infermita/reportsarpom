@@ -27,7 +27,11 @@
                 <select name="area" class="form-control">
                     <!--<option value="{{ implode('@', array_keys($areas)) }}">Tutti</option>-->
                     @foreach($areas as $key => $value)
-                    <option value="{{$key}}">{{$value}}</option>
+                    <option value="{{$key}}"
+                    @if( $key  == $request["area"])
+                        selected
+                    @endif   
+                    >{{$value}}</option>
                     @endforeach
                 </select>
             </div>

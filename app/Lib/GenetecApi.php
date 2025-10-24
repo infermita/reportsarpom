@@ -6,14 +6,16 @@ use Illuminate\Support\Facades\Cache ;
 class GenetecApi {
     //put your code here
     
-    protected $host = "192.168.1.69";
-    protected $port = 4590;
+    protected $host;
+    protected $port;
     private $auth = "";
     protected $protocol = "http";
     
     public function __construct() {
         
-        $this->auth = base64_encode("GecoAdmin;jo7n8pLpRYH0zb8VUWMhDy0Qnuz/SeCqMjgbY8aX6QdUSDGZQLPE84RCNvYPz29J:Gecoitalia0!");
+        $this->host = env('GENETEC_SERVER');
+        $this->port = env("GENETEC_PORT");
+        $this->auth = base64_encode(env("GENETEC_AUTH"));
         
     }
     
@@ -26,7 +28,7 @@ class GenetecApi {
         $url = "$protocol://$host:$port/$url";
         
         $auth = $this->auth;
-
+        
         $context = stream_context_create([
             "http" => [
                 "header" => "Authorization: Basic $auth\r\nAccept: text/json\r\n"
@@ -36,6 +38,7 @@ class GenetecApi {
                 "verify_peer_name" => false,
             )
         ]);
+        
         //echo "Chiamo url $url".PHP_EOL;
         try{
             $homepage = file_get_contents($url, false, $context);
@@ -44,7 +47,7 @@ class GenetecApi {
 
             $homepage = substr($homepage, $pos);
         } catch (\Exception $e){
-            echo $e->getMessage()."Url: $url\n";exit;
+            echo $e->getMessage()."<br />Url: $url\n";exit;
         }
         
         return $homepage;
@@ -296,7 +299,8 @@ class GenetecApi {
          */
         $dateEnd = date("Y-m-d", strtotime($param["start"])+86400);
         //$url = "WebSdk/report/DoorActivity?q=Doors@".$param["door"].",TimeRange.SetTimeRange(".$param["start"]."T00:00:00,".$param["end"]."T23:59:59)";
-        $url = "WebSdk/report/TimeAttendanceActivity?q=Areas@f00843a3-1dba-421a-880e-23851725783c,Cardholders@".$param["cardholder"].",TimeRange.SetTimeRange(".$param["start"]."T00:00:00,".$param["start"]."T23:59:59)";
+        //$url = "WebSdk/report/TimeAttendanceActivity?q=Areas@f00843a3-1dba-421a-880e-23851725783c,Cardholders@2f7b88ed-acbe-4733-bba1-1aee7fa35efa,TimeRange.SetTimeRange(".$param["start"]."T00:00:00,".$param["start"]."T23:59:59)";
+        $url = "WebSdk/report/TimeAttendanceActivity?q=Areas@".$param["area"].",Cardholders@".$param["cardholder"].",TimeRange.SetTimeRange(".$param["start"]."T00:00:00,".$param["start"]."T23:59:59)";
         //echo $url. PHP_EOL;//exit;
         
         $res = $this->getContent($url);
