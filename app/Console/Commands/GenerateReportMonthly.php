@@ -50,7 +50,7 @@ class GenerateReportMonthly extends Command {
 
             for ($i = 1; $i <= $endOfMonth; $i++) {
 
-                $param["area"] = "f00843a3-1dba-421a-880e-23851725783c";
+                $param["area"] = "f00843a3-1dba-421a-880e-23851725783c@7877aabb-8f00-442a-8739-4f5e30c370ca";
                 $param["start"] = $dateinM ."-". sprintf("%02d", $i);
                 $param["cardholder"] = $cardholder;
 
