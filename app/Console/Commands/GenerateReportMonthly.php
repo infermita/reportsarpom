@@ -36,11 +36,11 @@ class GenerateReportMonthly extends Command {
     public function handle() {
         $prevMonth = Carbon::now()->startOfMonth()->subMonth();
         $dateinM = $prevMonth->format("Y-m");
-        $endOfMonth = $prevMonth->daysInMonth();//Carbon::createFromDate(2025, 2, 1)->daysInMonth();
-        
+        $endOfMonth = $prevMonth->daysInMonth(); //Carbon::createFromDate(2025, 2, 1)->daysInMonth();
+
         $companyC = Cache::get('credentials');
 
-        $companies = MailingList::where("scheduled","MENSILE")->get();
+        $companies = MailingList::where("scheduled", "MENSILE")->get();
 
         foreach ($companies as $company) {
 
@@ -51,7 +51,7 @@ class GenerateReportMonthly extends Command {
             for ($i = 1; $i <= $endOfMonth; $i++) {
 
                 $param["area"] = "f00843a3-1dba-421a-880e-23851725783c@7877aabb-8f00-442a-8739-4f5e30c370ca";
-                $param["start"] = $dateinM ."-". sprintf("%02d", $i);
+                $param["start"] = $dateinM . "-" . sprintf("%02d", $i);
                 $param["cardholder"] = $cardholder;
 
                 echo "Esamino data: " . $param["start"] . PHP_EOL;
@@ -64,6 +64,7 @@ class GenerateReportMonthly extends Command {
                 $titles = [
                     'Nome',
                     'Badge',
+                    'Area',
                     'Data ora ingresso',
                     'Data ora uscita',
                     'Ore:Minuti Totali',
@@ -71,26 +72,29 @@ class GenerateReportMonthly extends Command {
                 ];
 
                 if ($i > 1) {
-                    $htmlString .= "<tr><td colspan=6>-</td></tr>";
+                    $htmlString .= "<tr><td colspan=7>-</td></tr>";
                 }
 
-                $htmlString .= "<tr><td colspan=6>Azienda: " . $company->company . " " . date("d-m-Y", strtotime($param["start"])) . "</td></tr><tr>";
+                $htmlString .= "<tr><td colspan=7>Azienda: " . $company->company . " " . date("d-m-Y", strtotime($param["start"])) . "</td></tr><tr>";
 
                 foreach ($titles as $value) {
 
                     $htmlString .= '<td style="border: 1px solid black;width:200px">' . $value . '</td>';
                 }
                 $htmlString .= '</tr>';
-                foreach ($res as $value) {
+                foreach ($res as $value1) {
+                    foreach ($value1 as $area => $value) {
 
-                    $htmlString .= '<tr>';
-                    $htmlString .= '<td style="border: 1px solid black;width:200px;">' . $value[0] . '</td>';
-                    $htmlString .= '<td style="border: 1px solid black;width:200px;text-align:center">' . $value[2] . '</td>';
-                    $htmlString .= '<td style="border: 1px solid black;width:200px">' . $value[3] . '</td>';
-                    $htmlString .= '<td style="border: 1px solid black;width:200px">' . $value[4] . '</td>';
-                    $htmlString .= '<td style="border: 1px solid black;width:200px">' . $value[6] . '</td>';
-                    $htmlString .= '<td style="border: 1px solid black;width:200px">' . ($value[5]) . '</td>';
-                    $htmlString .= '</tr>';
+                        $htmlString .= '<tr>';
+                        $htmlString .= '<td style="border: 1px solid black;width:200px;">' . $value[0] . '</td>';
+                        $htmlString .= '<td style="border: 1px solid black;width:200px;">' . $area . '</td>';
+                        $htmlString .= '<td style="border: 1px solid black;width:200px;text-align:center">' . $value[2] . '</td>';
+                        $htmlString .= '<td style="border: 1px solid black;width:200px">' . $value[3] . '</td>';
+                        $htmlString .= '<td style="border: 1px solid black;width:200px">' . $value[4] . '</td>';
+                        $htmlString .= '<td style="border: 1px solid black;width:200px">' . $value[6] . '</td>';
+                        $htmlString .= '<td style="border: 1px solid black;width:200px">' . ($value[5]) . '</td>';
+                        $htmlString .= '</tr>';
+                    }
                 }
             }
             $htmlString .= '</table>';
@@ -104,9 +108,9 @@ class GenerateReportMonthly extends Command {
             $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
             $spreadsheet = $reader->loadFromString($htmlString, $spreadsheet);
             $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Mpdf');
-            $writer->save(str_replace("/","_",$company->company) . ".pdf");
-            
-            $send = Mail::to(explode(",",$company->emails))->send(new ReportEmail(str_replace("/","_",$company->company).".pdf","mese ".$dateinM." ".$company->company));
+            $writer->save(str_replace("/", "_", $company->company) . ".pdf");
+
+            //$send = Mail::to(explode(",", $company->emails))->send(new ReportEmail(str_replace("/", "_", $company->company) . ".pdf", "mese " . $dateinM . " " . $company->company));
         }
     }
 }

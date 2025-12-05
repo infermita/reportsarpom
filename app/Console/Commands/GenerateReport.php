@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Cache;
 use App\Models\MailingList;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ReportEmail;
-use Carbon\Carbon ;
+use Carbon\Carbon;
 
 class GenerateReport extends Command {
 
@@ -36,11 +36,13 @@ class GenerateReport extends Command {
     public function handle() {
 
         $companyC = Cache::get('credentials');
-        
-        $companies = MailingList::where("scheduled","GIORNALIERO")->get();
-        
+        print_r($companyC);
+        exit;
+
+        $companies = MailingList::where("scheduled", "GIORNALIERO")->get();
+
         $day = Carbon::now()->yesterday()->format("Y-m-d");
-        
+
         foreach ($companies as $company) {
 
             $cardholder = implode('@', array_keys($companyC[$company->company]));
@@ -51,34 +53,39 @@ class GenerateReport extends Command {
 
             $api = new GenetecApi();
             $res = $api->getReport($param);
-            
-            $res = ElaborateResult::elaborate($res["Rsp"]["Result"], $companyC[$company->company],$param["start"]);
-            
+
+            $res = ElaborateResult::elaborate($res["Rsp"]["Result"], $companyC[$company->company], $param["start"]);
+
             $titles = [
                 'Nome',
+                'Area',
                 'Badge',
                 'Data ora ingresso',
                 'Data ora uscita',
                 'Ore:Minuti Totali',
                 'Ore:Minuti Effettivi',
             ];
-            $htmlString = "<table style='width:100%'><tr><td colspan=6>Azienda: ".$company->company."</td></tr><tr>";
+            $htmlString = "<table style='width:100%'><tr><td colspan=7>Azienda: " . $company->company . "</td></tr><tr>";
 
             foreach ($titles as $value) {
 
                 $htmlString .= '<td style="border: 1px solid black;width:200px">' . $value . '</td>';
             }
             $htmlString .= '</tr>';
-            foreach ($res as $value) {
+            foreach ($res as $value1) {
 
-                $htmlString .= '<tr>';
-                $htmlString .= '<td style="border: 1px solid black;width:200px;">' . $value[0] . '</td>';
-                $htmlString .= '<td style="border: 1px solid black;width:200px;text-align:center">' . $value[2] . '</td>';
-                $htmlString .= '<td style="border: 1px solid black;width:200px">' . $value[3] . '</td>';
-                $htmlString .= '<td style="border: 1px solid black;width:200px">' . $value[4] . '</td>';
-                $htmlString .= '<td style="border: 1px solid black;width:200px">' . $value[6] . '</td>';
-                $htmlString .= '<td style="border: 1px solid black;width:200px">' . ($value[5]) . '</td>';
-                $htmlString .= '</tr>';
+                foreach ($value1 as $area => $value) {
+
+                    $htmlString .= '<tr>';
+                    $htmlString .= '<td style="border: 1px solid black;width:200px;">' . $value[0] . '</td>';
+                    $htmlString .= '<td style="border: 1px solid black;width:200px;">' . $area . '</td>';
+                    $htmlString .= '<td style="border: 1px solid black;width:200px;text-align:center">' . $value[2] . '</td>';
+                    $htmlString .= '<td style="border: 1px solid black;width:200px">' . $value[3] . '</td>';
+                    $htmlString .= '<td style="border: 1px solid black;width:200px">' . $value[4] . '</td>';
+                    $htmlString .= '<td style="border: 1px solid black;width:200px">' . $value[6] . '</td>';
+                    $htmlString .= '<td style="border: 1px solid black;width:200px">' . ($value[5]) . '</td>';
+                    $htmlString .= '</tr>';
+                }
             }
             $htmlString .= '</table>';
 
@@ -89,10 +96,9 @@ class GenerateReport extends Command {
             $reader = new \PhpOffice\PhpSpreadsheet\Reader\Html();
             $spreadsheet = $reader->loadFromString($htmlString, $spreadsheet);
             $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Mpdf');
-            $writer->save(str_replace("/","_",$company->company).".pdf");
-            
-            $send = Mail::to(explode(",",$company->emails))->send(new ReportEmail(str_replace("/","_",$company->company).".pdf","giorno ".date("d-m-Y", strtotime($day))." ".$company->company));
-            
+            $writer->save(str_replace("/", "_", $company->company) . ".pdf");
+
+            //$send = Mail::to(explode(",", $company->emails))->send(new ReportEmail(str_replace("/", "_", $company->company) . ".pdf", "giorno " . date("d-m-Y", strtotime($day)) . " " . $company->company));
             //print_r($send);
         }
     }
