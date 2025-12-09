@@ -21,7 +21,7 @@ class GenerateReport extends Command {
      *
      * @var string
      */
-    protected $signature = 'app:generate-report';
+    protected $signature = 'app:generate-report {date?}';
 
     /**
      * The console command description.
@@ -35,13 +35,18 @@ class GenerateReport extends Command {
      */
     public function handle() {
 
-        $companyC = Cache::get('credentials');
-        print_r($companyC);
-        exit;
-
         $companies = MailingList::where("scheduled", "GIORNALIERO")->get();
 
-        $day = Carbon::now()->yesterday()->format("Y-m-d");
+        $startDate = $this->argument('date');
+
+        if ($startDate) {
+
+            $day = $startDate;
+        } else {
+
+            $day = Carbon::now()->yesterday()->format("Y-m-d");
+        }
+        echo $day;
 
         foreach ($companies as $company) {
 
@@ -98,7 +103,7 @@ class GenerateReport extends Command {
             $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Mpdf');
             $writer->save(str_replace("/", "_", $company->company) . ".pdf");
 
-            //$send = Mail::to(explode(",", $company->emails))->send(new ReportEmail(str_replace("/", "_", $company->company) . ".pdf", "giorno " . date("d-m-Y", strtotime($day)) . " " . $company->company));
+            $send = Mail::to(explode(",", $company->emails))->send(new ReportEmail(str_replace("/", "_", $company->company) . ".pdf", "giorno " . date("d-m-Y", strtotime($day)) . " " . $company->company));
             //print_r($send);
         }
     }
