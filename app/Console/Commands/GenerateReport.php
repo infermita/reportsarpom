@@ -35,6 +35,8 @@ class GenerateReport extends Command {
      */
     public function handle() {
 
+        $companyC = Cache::get('credentials');
+
         $companies = MailingList::where("scheduled", "GIORNALIERO")->get();
 
         $startDate = $this->argument('date');
