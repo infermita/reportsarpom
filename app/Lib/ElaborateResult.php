@@ -43,6 +43,9 @@ class ElaborateResult {
             $minutes = $users["TotalMinutes"];
             $totMinutes = $users["TotalMinutesInclusive"];
 
+            if ($totMinutes <= 3)
+                continue;
+
             $dateCkIn = strtotime($dateSel . " 07:57");
             $dateCkOut = strtotime($dateSel . " 16:45");
             //$hourMin = sprintf("%02d:%02d",floor($minutes/60),$minutes%60);
