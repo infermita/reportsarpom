@@ -38,7 +38,8 @@ class GenerateReportMonthlyHoursPresence extends Command {
 	  $writer->save("persone.xls");
 	  exit;
 	 */
-	$prevMonth = Carbon::createFromDate(2025, 6, 1); //Carbon::now()->startOfMonth()->subMonth();
+	//$prevMonth = Carbon::createFromDate(2025, 7, 1); //Carbon::now()->startOfMonth()->subMonth();
+	$prevMonth = Carbon::now()->startOfMonth()->subMonth();
 	$dateinM = $prevMonth->format("Y-m");
 	$endOfMonth = $prevMonth->daysInMonth(); //Carbon::createFromDate(2025, 9, 1)->daysInMonth();
 
@@ -86,6 +87,7 @@ class GenerateReportMonthlyHoursPresence extends Command {
 	$htmlString = "<table style='width:100%'>" . PHP_EOL;
 	$htmlString .= "<tr style='heigth:80px'><td colspan=30><b>PERSONE PRESENTI IN RAFFINERIA PER OGNI SETTIMANA - MESE  $dateinM - DAL GIORNO 01 AL GIORNO $endOfMonth</b></td></tr>" . PHP_EOL;
 	$start = 1;
+	$totDays = [];
 	foreach ($peoplePresent as $company => $values) {
 
 	    if ($start) {
@@ -110,15 +112,39 @@ class GenerateReportMonthlyHoursPresence extends Command {
 		$htmlString .= "<td>$value</td>" . PHP_EOL;
 		$totMon += $value;
 		$totWeek += $value;
+		if (!isset($totDays[$day]))
+		    $totDays[$day] = 0;
+
+		$totDays[$day] += $value;
 
 		if (Carbon::createFromFormat("Y-m-d", "$dateinM-" . sprintf("%02d", $day))->isSunday()) {
 		    $htmlString .= "<td style='background-color:#e2f0d9;width:35px'>$totWeek</td>" . PHP_EOL;
 		    $totWeek = 0;
 		}
 	    }
-	    $htmlString .= "<td style='background-color:#ffc000;width:35px'>$totMon</td>" . PHP_EOL;
+	    $htmlString .= "<td>$totMon</td>" . PHP_EOL;
 	    $htmlString .= "</tr>" . PHP_EOL;
 	}
+	$htmlString .= "<tr><td>TOTALE</td>" . PHP_EOL;
+
+	$totGen = 0;
+	$totSet = 0;
+	foreach ($totDays as $day => $value) {
+
+	    $totSet += $value;
+
+	    if (Carbon::createFromFormat("Y-m-d", "$dateinM-" . sprintf("%02d", $day))->isSunday()) {
+		$htmlString .= "<td>$value</td>" . PHP_EOL;
+		$htmlString .= "<td style='background-color:#e2f0d9;width:35px'>$totSet</td>" . PHP_EOL;
+		$totSet = 0;
+	    } else {
+		$htmlString .= "<td>$value</td>" . PHP_EOL;
+	    }
+	    $totGen += $value;
+	}
+	$htmlString .= "<td>$totGen</td>" . PHP_EOL;
+	$htmlString .= "</tr>" . PHP_EOL;
+
 	$htmlString .= "</table>";
 	file_put_contents("/tmp/people.html", $htmlString);
 
@@ -127,6 +153,7 @@ class GenerateReportMonthlyHoursPresence extends Command {
 	$htmlString1 .= "<tr><td style='width:180px'>DITTA</td><td style='width:180px'>Sum of TOTALE ORE:MINUTI</td></tr>";
 
 	$totMin = 0;
+
 	foreach ($hourPresent as $company => $value) {
 
 	    $totMin += $value;
@@ -162,6 +189,6 @@ class GenerateReportMonthlyHoursPresence extends Command {
 	$reader->setSheetIndex(1);
 
 	$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
-	$writer->save("persone.xls");
+	$writer->save("Presenze-ore-contrattori-del-$dateinM.xls");
     }
 }
