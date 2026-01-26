@@ -10,6 +10,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Illuminate\Support\Facades\Cache;
+use App\Mail\ReportEmail;
 
 class GenerateReportMonthlyHoursPresence extends Command {
 
@@ -190,5 +191,9 @@ class GenerateReportMonthlyHoursPresence extends Command {
 
 	$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xls');
 	$writer->save("Presenze-ore-contrattori-del-$dateinM.xls");
+
+	$emails = "michela.pozzato@eseitalia.it,veronica.canever@eseitalia.it,marco.grassi@eseitalia.it,ilenia.d.zanardi@eseitalia.it";
+
+	$send = Mail::to(explode(",", $emails))->send(new ReportEmail("Presenze-ore-contrattori-del-$dateinM.xls", "mese $dateinM presenze ore contrattori"));
     }
 }
