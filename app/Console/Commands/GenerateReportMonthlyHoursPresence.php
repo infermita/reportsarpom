@@ -39,8 +39,8 @@ class GenerateReportMonthlyHoursPresence extends Command {
 	  $writer->save("persone.xls");
 	  exit;
 	 */
-	//$prevMonth = Carbon::createFromDate(2025, 7, 1); //Carbon::now()->startOfMonth()->subMonth();
-	$prevMonth = Carbon::now()->startOfMonth()->subMonth();
+	$prevMonth = Carbon::createFromDate(2025, 7, 1); //Carbon::now()->startOfMonth()->subMonth();
+	//$prevMonth = Carbon::now()->startOfMonth()->subMonth();
 	$dateinM = $prevMonth->format("Y-m");
 	$endOfMonth = $prevMonth->daysInMonth(); //Carbon::createFromDate(2025, 9, 1)->daysInMonth();
 
@@ -52,7 +52,7 @@ class GenerateReportMonthlyHoursPresence extends Command {
 
 	    $cnt++;
 
-	    if ($key == "" || $key == "SARPOM" || $key == "SARPOM QUILIANO" || array_keys($value) == 0)
+	    if ($key == "" || $key == "SARPOM" || str_replace(" ", "", $key) == "SARPOMQUILIANO" || str_replace(" ", "", $key) == "AGENZIADOGANEMONOPOLI" || array_keys($value) == 0)
 		continue;
 
 	    $cardholder = implode('@', array_keys($value));
@@ -162,7 +162,9 @@ class GenerateReportMonthlyHoursPresence extends Command {
 	    $oreTot = intdiv($value, 60);
 	    $minTot = $value % 60;
 
-	    $risultato = sprintf('%02d:%02d', $oreTot, $minTot);
+	    $risultato = round($value / 15) * 0.25; //sprintf('%02d:%02d', $oreTot, $minTot);
+
+	    $totMin += $risultato;
 
 	    $htmlString1 .= "<tr><td>" . str_replace("&", "&amp;", $company) . "</td><td>$risultato</td></tr>";
 	}
@@ -170,7 +172,7 @@ class GenerateReportMonthlyHoursPresence extends Command {
 	$oreTot = intdiv($totMin, 60);
 	$minTot = $totMin % 60;
 
-	$risultato = sprintf('%02d:%02d', $oreTot, $minTot);
+	$risultato = round($totMin / 15) * 0.25; //sprintf('%02d:%02d', $oreTot, $minTot);
 
 	$htmlString1 .= "<tr><td>TOTALE</td><td>$risultato</td></tr>";
 
@@ -194,6 +196,6 @@ class GenerateReportMonthlyHoursPresence extends Command {
 
 	$emails = "michela.pozzato@eseitalia.it,veronica.canever@eseitalia.it,marco.grassi@eseitalia.it,ilenia.d.zanardi@eseitalia.it";
 
-	$send = Mail::to(explode(",", $emails))->send(new ReportEmail("Presenze-ore-contrattori-del-$dateinM.xls", "mese $dateinM presenze ore contrattori"));
+	//$send = Mail::to(explode(",", $emails))->send(new ReportEmail("Presenze-ore-contrattori-del-$dateinM.xls", "mese $dateinM presenze ore contrattori"));
     }
 }
