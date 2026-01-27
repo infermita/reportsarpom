@@ -39,8 +39,8 @@ class GenerateReportMonthlyHoursPresence extends Command {
 	  $writer->save("persone.xls");
 	  exit;
 	 */
-	$prevMonth = Carbon::createFromDate(2025, 7, 1); //Carbon::now()->startOfMonth()->subMonth();
-	//$prevMonth = Carbon::now()->startOfMonth()->subMonth();
+	//$prevMonth = Carbon::createFromDate(2025, 7, 1); //Carbon::now()->startOfMonth()->subMonth();
+	$prevMonth = Carbon::now()->startOfMonth()->subMonth();
 	$dateinM = $prevMonth->format("Y-m");
 	$endOfMonth = $prevMonth->daysInMonth(); //Carbon::createFromDate(2025, 9, 1)->daysInMonth();
 
@@ -48,11 +48,14 @@ class GenerateReportMonthlyHoursPresence extends Command {
 	ksort($companies);
 	$tot = count($companies);
 	$cnt = 0;
+
+	$companiesEx = ["SARPOM", "SARPOMQUILIANO", "AGENZIADOGANEMONOPOLI", "ESSO", "INAIL", "INFERMERIA", "VISIT.SHIPPING"];
+
 	foreach ($companies as $key => $value) {
 
 	    $cnt++;
 
-	    if ($key == "" || $key == "SARPOM" || str_replace(" ", "", $key) == "SARPOMQUILIANO" || str_replace(" ", "", $key) == "AGENZIADOGANEMONOPOLI" || array_keys($value) == 0)
+	    if ($key == "" || in_array(str_replace(" ", "", $key), $companiesEx) || array_keys($value) == 0)
 		continue;
 
 	    $cardholder = implode('@', array_keys($value));
