@@ -196,6 +196,6 @@ class GenerateReportMonthlyHoursPresence extends Command {
 
 	$emails = "michela.pozzato@eseitalia.it,veronica.canever@eseitalia.it,marco.grassi@eseitalia.it,ilenia.d.zanardi@eseitalia.it";
 
-	//$send = Mail::to(explode(",", $emails))->send(new ReportEmail("Presenze-ore-contrattori-del-$dateinM.xls", "mese $dateinM presenze ore contrattori"));
+	$send = Mail::to(explode(",", $emails))->send(new ReportEmail("Presenze-ore-contrattori-del-$dateinM.xls", "mese $dateinM presenze ore contrattori"));
     }
 }
