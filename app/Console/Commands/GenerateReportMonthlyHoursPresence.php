@@ -11,6 +11,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Illuminate\Support\Facades\Cache;
 use App\Mail\ReportEmail;
+use Illuminate\Support\Facades\Mail;
 
 class GenerateReportMonthlyHoursPresence extends Command {
 
