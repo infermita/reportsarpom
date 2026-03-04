@@ -52,6 +52,9 @@ class GenerateReport extends Command {
 
         foreach ($companies as $company) {
 
+            if (!isset($companyC[$company->company]))
+		continue;
+
             $cardholder = implode('@', array_keys($companyC[$company->company]));
 
             $param["area"] = "f00843a3-1dba-421a-880e-23851725783c@7877aabb-8f00-442a-8739-4f5e30c370ca";
