@@ -33,7 +33,7 @@ class ExportCompany extends Command
         foreach ($companyC as $key => $values) {
             
             if($ccrtl!=$key){
-                //echo PHP_EOL;
+                echo PHP_EOL;
                 $ccrtl = $key;
             }
             echo $key;
