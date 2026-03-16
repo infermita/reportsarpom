@@ -40,8 +40,8 @@ class GenerateReportMonthlyHoursPresence extends Command {
 	  $writer->save("persone.xls");
 	  exit;
 	 */
-	//$prevMonth = Carbon::createFromDate(2025, 7, 1); //Carbon::now()->startOfMonth()->subMonth();
-	$prevMonth = Carbon::now()->startOfMonth()->subMonth();
+	$prevMonth = Carbon::createFromDate(2025, 7, 1); //Carbon::now()->startOfMonth()->subMonth();
+	//$prevMonth = Carbon::now()->startOfMonth()->subMonth();
 	$dateinM = $prevMonth->format("Y-m");
 	$endOfMonth = $prevMonth->daysInMonth(); //Carbon::createFromDate(2025, 9, 1)->daysInMonth();
 
@@ -52,6 +52,8 @@ class GenerateReportMonthlyHoursPresence extends Command {
 
 	$companiesEx = ["SARPOM", "SARPOMQUILIANO", "AGENZIADOGANEMONOPOLI", "ESSO", "INAIL", "INFERMERIA", "VISIT.SHIPPING"];
 
+        $api = new GenetecApi();
+
 	foreach ($companies as $key => $value) {
 
 	    $cnt++;
@@ -59,34 +61,45 @@ class GenerateReportMonthlyHoursPresence extends Command {
 	    if ($key == "" || in_array(str_replace(" ", "", $key), $companiesEx) || array_keys($value) == 0)
 		continue;
 
-	    $cardholder = implode('@', array_keys($value));
+            $cardholder = implode('@', array_keys($value));
 	    $peoplePresent[$key] = [];
 	    $hourPresent[$key] = 0;
 
 	    for ($i = 1; $i <= $endOfMonth; $i++) {
 
-		$param["area"] = "f00843a3-1dba-421a-880e-23851725783c";
+		$param["area"] = "f00843a3-1dba-421a-880e-23851725783c@7877aabb-8f00-442a-8739-4f5e30c370ca";
 		$param["start"] = $dateinM . "-" . sprintf("%02d", $i);
 		$param["cardholder"] = $cardholder;
 
 		echo "$cnt di $tot Esamino $key data: " . $param["start"] . PHP_EOL;
 
-		$api = new GenetecApi();
-		$res = $api->getReport($param);
 		
+		$res = $api->getReport($param);
+		//print_r($res);exit;
 		$res = ElaborateResult::elaborate($res["Rsp"]["Result"], $value, $param["start"]);
-                //print_r($res);exit;
+                
 		$cntPeople = 0;
 
 		foreach ($res as $value1) {
-		    foreach ($value1 as $pp) {
+
+                    if(isset($value1["RAFFINERIA TRECATE"])){
+                        $pp = $value1["RAFFINERIA TRECATE"];
+                    }else if(isset($value1["PALAZZINA DIREZIONE"])){
+                        $pp = $value1["PALAZZINA DIREZIONE"];
+                    }else{
+                        continue;
+                    }
+
+		    //foreach ($value1 as $pp) {
 			$cntPeople++;
 			[$ore, $minuti] = explode(':', $pp[5]);
 			$hourPresent[$key] += ($ore * 60) + $minuti;
-		    }
+		    //}
+                    continue;
 		}
 		$peoplePresent[$key][$i] = $cntPeople;
 	    }
+            
 	}
 
 	$htmlString = "<table style='width:100%'>" . PHP_EOL;
