@@ -40,8 +40,8 @@ class GenerateReportMonthlyHoursPresence extends Command {
 	  $writer->save("persone.xls");
 	  exit;
 	 */
-	$prevMonth = Carbon::createFromDate(2025, 7, 1); //Carbon::now()->startOfMonth()->subMonth();
-	//$prevMonth = Carbon::now()->startOfMonth()->subMonth();
+	//$prevMonth = Carbon::createFromDate(2025, 7, 1); //Carbon::now()->startOfMonth()->subMonth();
+	$prevMonth = Carbon::now()->startOfMonth()->subMonth();
 	$dateinM = $prevMonth->format("Y-m");
 	$endOfMonth = $prevMonth->daysInMonth(); //Carbon::createFromDate(2025, 9, 1)->daysInMonth();
 
